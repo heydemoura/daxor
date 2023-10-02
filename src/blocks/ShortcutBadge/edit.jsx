@@ -10,7 +10,6 @@ const Edit = (props) => {
   const [url, setUrl] = React.useState(props.attributes.value);
 
   const handleURLChange = (event) => {
-    console.log(event.target.value);
     props.setAttributes({ ...props.attributes, value: event.target.value });
     setUrl(event.target.value);
   };

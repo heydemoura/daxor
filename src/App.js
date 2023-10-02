@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { getBlockTypes } from "@wordpress/blocks";
+import keyBy from "lodash/keyBy";
 import {
   BlockEditorProvider,
   BlockList,
@@ -12,36 +14,19 @@ import MyEditorComponent from "./components/Editor";
 import logo from "./logo.svg";
 import "./App.css";
 
-function Editor({ blocks: persistentBlocks, onQuitEditor }) {
-  const [blocks, updateBlocks] = useState(persistentBlocks || []);
-
-  const onBlockEditorInput = (blocks) => {
-    console.log("onBlockEditorInput", blocks);
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    updateBlocks(blocks);
-  };
-
-  const onBlockEditorChange = (blocks) => {
-    console.log("onBlockEditorChange", blocks);
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    updateBlocks(blocks);
-  };
-
-  const handleSave = () => {
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-    updateBlocks(blocks);
-    onQuitEditor();
-  };
-
+function Editor({ blocks, onSave, onQuitEditor, onUpdateBlocks }) {
   return (
     <div>
-      <Button variant="primary" onClick={handleSave}>
+      <Button variant="primary" onClick={() => onSave()}>
         Save
+      </Button>
+      <Button variant="tertiary" onClick={() => onQuitEditor()}>
+        Stop editing
       </Button>
       <BlockEditorProvider
         value={blocks}
-        onInput={(blocks) => onBlockEditorInput(blocks)}
-        onChange={(blocks) => onBlockEditorChange(blocks)}
+        onInput={onUpdateBlocks}
+        onChange={onUpdateBlocks}
       >
         <BlockTools>
           <BlockCanvas height="400px"></BlockCanvas>
@@ -51,16 +36,54 @@ function Editor({ blocks: persistentBlocks, onQuitEditor }) {
   );
 }
 
+function ViewRenderedContent({ blocks, blockTypes }) {
+  const blockTypesByName = keyBy(blockTypes, "name");
+  return (
+    <div>
+      {blocks.map((block, index) => {
+        const { name, attributes } = block;
+        const Block = blockTypesByName[name];
+        return (
+          <Block.save
+            key={`${index}-${name}-${block.clientId}`}
+            attributes={attributes}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function App({ persistentBlocks }) {
   const [editMode, setEditMode] = React.useState(false);
+  const [blocks, updateBlocks] = useState(persistentBlocks || []);
+
+  const handleOnEditorSave = React.useCallback(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+    updateBlocks(blocks);
+  }, [blocks, updateBlocks]);
+
+  const onEditorQuit = React.useCallback(() => {
+    handleOnEditorSave(blocks);
+    setEditMode(false);
+  }, [blocks, handleOnEditorSave, setEditMode]);
+
+  const onUpdateBlocks = React.useCallback(
+    (b) => {
+      updateBlocks(b);
+    },
+    [updateBlocks],
+  );
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         {editMode && (
           <Editor
-            blocks={persistentBlocks}
-            onQuitEditor={() => setEditMode(false)}
+            blocks={blocks}
+            onQuitEditor={(b) => onEditorQuit(b)}
+            onSave={(b) => handleOnEditorSave(b)}
+            onUpdateBlocks={onUpdateBlocks}
           />
         )}
         {!editMode && (
@@ -69,6 +92,11 @@ function App({ persistentBlocks }) {
           </Button>
         )}
       </header>
+      <main>
+        {!editMode && (
+          <ViewRenderedContent blocks={blocks} blockTypes={getBlockTypes()} />
+        )}
+      </main>
     </div>
   );
 }

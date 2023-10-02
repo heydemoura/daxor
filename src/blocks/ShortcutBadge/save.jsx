@@ -1,9 +1,8 @@
 import React from "react";
-export default function save() {
-  //  console.log("This block just got saved!");
+export default function save(props) {
   return (
     <div>
-      <h1>save</h1>
+      <h1>{props.attributes.value}</h1>
     </div>
   );
 }
