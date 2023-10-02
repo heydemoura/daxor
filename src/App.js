@@ -6,24 +6,30 @@ import {
   BlockCanvas,
   WritingFlow,
 } from "@wordpress/block-editor";
-import { registerCoreBlocks } from "@wordpress/block-library";
-// Make sure to load the block editor stylesheets too
-import "@wordpress/components/build-style/style.css";
-import "@wordpress/block-editor/build-style/style.css";
 
 import MyEditorComponent from "./components/Editor";
 import logo from "./logo.svg";
 import "./App.css";
 
-function Editor() {
-  const [blocks, updateBlocks] = useState([]);
-  registerCoreBlocks();
+function Editor({ blocks: persistentBlocks }) {
+  const [blocks, updateBlocks] = useState(persistentBlocks || []);
+
+  const onBlockEditorInput = (blocks) => {
+    console.log("onBlockEditorInput", blocks);
+    updateBlocks(blocks);
+  };
+
+  const onBlockEditorChange = (blocks) => {
+    console.log("onBlockEditorChange", blocks);
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+    updateBlocks(blocks);
+  };
 
   return (
     <BlockEditorProvider
       value={blocks}
-      onInput={(blocks) => updateBlocks(blocks)}
-      onChange={(blocks) => updateBlocks(blocks)}
+      onInput={(blocks) => onBlockEditorInput(blocks)}
+      onChange={(blocks) => onBlockEditorChange(blocks)}
     >
       <BlockTools>
         <BlockCanvas height="400px">
@@ -34,7 +40,7 @@ function Editor() {
   );
 }
 
-function App() {
+function App({ persistentBlocks }) {
   return (
     <div className="App">
       <header className="App-header">
@@ -42,7 +48,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <Editor />
+        <Editor blocks={persistentBlocks} />
         <a
           className="App-link"
           href="https://reactjs.org"
