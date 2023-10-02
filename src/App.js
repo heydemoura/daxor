@@ -6,16 +6,18 @@ import {
   BlockCanvas,
   WritingFlow,
 } from "@wordpress/block-editor";
+import { Button } from "@wordpress/components";
 
 import MyEditorComponent from "./components/Editor";
 import logo from "./logo.svg";
 import "./App.css";
 
-function Editor({ blocks: persistentBlocks }) {
+function Editor({ blocks: persistentBlocks, onQuitEditor }) {
   const [blocks, updateBlocks] = useState(persistentBlocks || []);
 
   const onBlockEditorInput = (blocks) => {
     console.log("onBlockEditorInput", blocks);
+    localStorage.setItem("blocks", JSON.stringify(blocks));
     updateBlocks(blocks);
   };
 
@@ -25,38 +27,47 @@ function Editor({ blocks: persistentBlocks }) {
     updateBlocks(blocks);
   };
 
+  const handleSave = () => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+    updateBlocks(blocks);
+    onQuitEditor();
+  };
+
   return (
-    <BlockEditorProvider
-      value={blocks}
-      onInput={(blocks) => onBlockEditorInput(blocks)}
-      onChange={(blocks) => onBlockEditorChange(blocks)}
-    >
-      <BlockTools>
-        <BlockCanvas height="400px">
-          <BlockList></BlockList>
-        </BlockCanvas>
-      </BlockTools>
-    </BlockEditorProvider>
+    <div>
+      <Button variant="primary" onClick={handleSave}>
+        Save
+      </Button>
+      <BlockEditorProvider
+        value={blocks}
+        onInput={(blocks) => onBlockEditorInput(blocks)}
+        onChange={(blocks) => onBlockEditorChange(blocks)}
+      >
+        <BlockTools>
+          <BlockCanvas height="400px"></BlockCanvas>
+        </BlockTools>
+      </BlockEditorProvider>
+    </div>
   );
 }
 
 function App({ persistentBlocks }) {
+  const [editMode, setEditMode] = React.useState(false);
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Editor blocks={persistentBlocks} />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {editMode && (
+          <Editor
+            blocks={persistentBlocks}
+            onQuitEditor={() => setEditMode(false)}
+          />
+        )}
+        {!editMode && (
+          <Button variant="secondary" onClick={() => setEditMode(!editMode)}>
+            Edit Mode
+          </Button>
+        )}
       </header>
     </div>
   );
