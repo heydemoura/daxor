@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getBlockTypes } from "@wordpress/blocks";
+import { getBlockTypes, getBlockContent } from "@wordpress/blocks";
 import keyBy from "lodash/keyBy";
 import {
   BlockEditorProvider,
@@ -41,12 +41,13 @@ function ViewRenderedContent({ blocks, blockTypes }) {
   return (
     <div>
       {blocks.map((block, index) => {
-        const { name, attributes } = block;
-        const Block = blockTypesByName[name];
+        const blockContent = getBlockContent(block);
+        console.log(blockContent);
+
         return (
-          <Block.save
-            key={`${index}-${name}-${block.clientId}`}
-            attributes={attributes}
+          <div
+            key={`${index}-${block.name}`}
+            dangerouslySetInnerHTML={{ __html: blockContent }}
           />
         );
       })}
