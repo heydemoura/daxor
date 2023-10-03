@@ -1,5 +1,7 @@
 import React from "react";
+import { TextControl } from "@wordpress/components";
 import { useBlockProps } from "@wordpress/block-editor";
+import "@wordpress/components/build-style/style.css";
 import "./style.scss";
 
 const Edit = (props) => {
@@ -9,14 +11,14 @@ const Edit = (props) => {
 
   const [url, setUrl] = React.useState(props.attributes.value);
 
-  const handleURLChange = (event) => {
-    props.setAttributes({ ...props.attributes, value: event.target.value });
-    setUrl(event.target.value);
+  const handleURLChange = (value) => {
+    props.setAttributes({ ...props.attributes, value });
+    setUrl(value);
   };
 
   return (
     <div {...blockProps}>
-      <input type="text" onChange={handleURLChange} value={url} />
+      <TextControl onChange={handleURLChange} value={url} />
     </div>
   );
 };

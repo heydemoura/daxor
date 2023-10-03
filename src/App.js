@@ -1,57 +1,41 @@
 import React, { useState } from "react";
-import { getBlockTypes, getBlockContent } from "@wordpress/blocks";
-import keyBy from "lodash/keyBy";
 import {
   BlockEditorProvider,
-  BlockList,
   BlockTools,
+  BlockList,
   BlockCanvas,
-  WritingFlow,
+  BlockInspector,
 } from "@wordpress/block-editor";
 import { Button } from "@wordpress/components";
 
-import MyEditorComponent from "./components/Editor";
-import logo from "./logo.svg";
+import BlockContentView from "./components/BlockContentView";
+import BlockEditorContainer from "./components/BlockEditorContainer";
 import "./App.css";
+import "@wordpress/components/build-style/style.css";
+import "@wordpress/block-editor/build-style/style.css";
 
 function Editor({ blocks, onSave, onQuitEditor, onUpdateBlocks }) {
   return (
-    <div>
+    <>
       <Button variant="primary" onClick={() => onSave()}>
         Save
       </Button>
       <Button variant="tertiary" onClick={() => onQuitEditor()}>
         Stop editing
       </Button>
-      <BlockEditorProvider
-        value={blocks}
-        onInput={onUpdateBlocks}
-        onChange={onUpdateBlocks}
-      >
-        <BlockTools>
-          <BlockCanvas height="400px"></BlockCanvas>
-        </BlockTools>
-      </BlockEditorProvider>
-    </div>
-  );
-}
-
-function ViewRenderedContent({ blocks, blockTypes }) {
-  const blockTypesByName = keyBy(blockTypes, "name");
-  return (
-    <div>
-      {blocks.map((block, index) => {
-        const blockContent = getBlockContent(block);
-        console.log(blockContent);
-
-        return (
-          <div
-            key={`${index}-${block.name}`}
-            dangerouslySetInnerHTML={{ __html: blockContent }}
-          />
-        );
-      })}
-    </div>
+      <BlockEditorContainer>
+        <BlockEditorProvider
+          value={blocks}
+          onInput={onUpdateBlocks}
+          onChange={onUpdateBlocks}
+        >
+          <BlockTools>
+            <BlockList />
+            <BlockInspector />
+          </BlockTools>
+        </BlockEditorProvider>
+      </BlockEditorContainer>
+    </>
   );
 }
 
@@ -93,11 +77,7 @@ function App({ persistentBlocks }) {
           </Button>
         )}
       </header>
-      <main>
-        {!editMode && (
-          <ViewRenderedContent blocks={blocks} blockTypes={getBlockTypes()} />
-        )}
-      </main>
+      <main>{!editMode && <BlockContentView blocks={blocks} />}</main>
     </div>
   );
 }

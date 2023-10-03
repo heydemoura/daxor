@@ -1,11 +1,14 @@
-
 :root {
      iframe#webpack-dev-server-client-overlay {
           display: none !important
      }
 }
 .daxor__block__edit-shortcut-badge {
+//     border: 1px solid gray;
+    border-radius: 4px;
+
     width: 100%;
     display: flex;
     flex: 1;
+    padding: 0.5rem;
 }

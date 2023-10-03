@@ -1,0 +1,10 @@
+.daxor__block-content-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    flex-direction: column;
+    flex: 1;
+    padding: 2rem;
+    margin: 1rem;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+}
