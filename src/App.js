@@ -61,7 +61,7 @@ function App({ persistentBlocks }) {
         onChange={onUpdateBlocks}
         onInput={onUpdateBlocks}
       >
-        <main>
+        <main className="App--main">
           {!editMode && <BlockContentView blocks={blocks} />}
 
           {editMode && <Editor />}
