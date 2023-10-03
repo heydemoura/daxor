@@ -3,7 +3,7 @@ import { MdAccessTimeFilled } from "react-icons/md";
 import Edit from "./edit";
 import Save from "./save";
 
-export default function ShortcutBadgeInit() {
+export default function ClockInit() {
   return registerBlockType("daxor/clock", {
     className: "daxor__block__clock",
     title: "Clock",
