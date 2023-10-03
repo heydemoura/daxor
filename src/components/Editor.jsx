@@ -1,16 +1,23 @@
 import React from "react";
-import { useBlockProps, RichText } from "@wordpress/block-editor";
+import {
+  BlockEditorProvider,
+  BlockTools,
+  BlockList,
+  BlockInspector,
+} from "@wordpress/block-editor";
 
-const EditorComponent = ({ content, onChange }) => {
+import BlockEditorContainer from "./BlockEditorContainer";
+const Editor = ({ blocks, onChange, onInput }) => {
   return (
-    <div {...useBlockProps()}>
-      <RichText
-        placeholder="Enter your content here..."
-        value={content}
-        onChange={onChange}
-      />
-    </div>
+    <BlockEditorProvider value={blocks} onInput={onInput} onChange={onChange}>
+      <BlockEditorContainer>
+        <BlockTools>
+          <BlockList />
+          <BlockInspector />
+        </BlockTools>
+      </BlockEditorContainer>
+    </BlockEditorProvider>
   );
 };
 
-export default EditorComponent;
+export default Editor;
