@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { registerCoreBlocks } from "@wordpress/block-library";
 import "@wordpress/components/build-style/style.css";
 import "@wordpress/block-editor/build-style/style.css";
 import "@wordpress/block-library/build-style/style.css";
@@ -10,6 +9,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import registerShortcutBadge from "./blocks/ShortcutBadge";
+import registerClock from "./blocks/Clock";
 
 const persistentBlocks = JSON.parse(localStorage.getItem("blocks"));
 
@@ -26,3 +26,4 @@ root.render(
 reportWebVitals();
 
 registerShortcutBadge();
+registerClock();
