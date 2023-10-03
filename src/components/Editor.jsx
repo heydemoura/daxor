@@ -1,22 +1,14 @@
 import React from "react";
-import {
-  BlockEditorProvider,
-  BlockTools,
-  BlockList,
-  BlockInspector,
-} from "@wordpress/block-editor";
+import { BlockTools, BlockList } from "@wordpress/block-editor";
 
 import BlockEditorContainer from "./BlockEditorContainer";
-const Editor = ({ blocks, onChange, onInput }) => {
+const Editor = () => {
   return (
-    <BlockEditorProvider value={blocks} onInput={onInput} onChange={onChange}>
-      <BlockEditorContainer>
-        <BlockTools>
-          <BlockList />
-          <BlockInspector />
-        </BlockTools>
-      </BlockEditorContainer>
-    </BlockEditorProvider>
+    <BlockEditorContainer>
+      <BlockTools>
+        <BlockList />
+      </BlockTools>
+    </BlockEditorContainer>
   );
 };
 

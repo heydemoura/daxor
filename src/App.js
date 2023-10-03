@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { BlockEditorProvider } from "@wordpress/block-editor";
 import { Button } from "@wordpress/components";
 
 import BlockContentView from "./components/BlockContentView";
@@ -29,6 +29,11 @@ function App({ persistentBlocks }) {
     [updateBlocks],
   );
 
+  const handleClearEditor = React.useCallback(() => {
+    localStorage.removeItem("blocks");
+    updateBlocks([]);
+  }, [updateBlocks]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -37,9 +42,12 @@ function App({ persistentBlocks }) {
             <Button variant="primary" onClick={() => handleOnEditorSave()}>
               Save
             </Button>
-            <Button variant="tertiary" onClick={() => onEditorQuit()}>
+            <Button variant="secondary" onClick={() => onEditorQuit()}>
               Stop editing
             </Button>{" "}
+            <Button variant="tertiary" onClick={() => handleClearEditor()}>
+              Clear
+            </Button>
           </>
         )}
         {!editMode && (
@@ -48,17 +56,17 @@ function App({ persistentBlocks }) {
           </Button>
         )}
       </header>
-      <main>
-        {!editMode && <BlockContentView blocks={blocks} />}
+      <BlockEditorProvider
+        value={blocks}
+        onChange={onUpdateBlocks}
+        onInput={onUpdateBlocks}
+      >
+        <main>
+          {!editMode && <BlockContentView blocks={blocks} />}
 
-        {editMode && (
-          <Editor
-            blocks={blocks}
-            onChange={onUpdateBlocks}
-            onInput={onUpdateBlocks}
-          />
-        )}
-      </main>
+          {editMode && <Editor />}
+        </main>
+      </BlockEditorProvider>
     </div>
   );
 }
