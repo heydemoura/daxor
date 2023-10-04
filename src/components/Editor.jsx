@@ -8,8 +8,8 @@ const Editor = () => {
   return (
     <div className="editor">
       <BlockEditorContainer>
-        <BlockTools>
-          <BlockList />
+        <BlockTools className="editor__block-tools-wrapper">
+          <BlockList className="editor__block-list-wrapper" />
         </BlockTools>
       </BlockEditorContainer>
       <BlockInspectorWrapper />

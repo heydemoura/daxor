@@ -10,6 +10,7 @@ const BlockContentView = ({ blocks }) => {
 
         return (
           <div
+            className={`daxor__block-content-view__block daxor__block-content-view__block--${block.name}`}
             key={`${index}-${block.name}`}
             dangerouslySetInnerHTML={{ __html: blockContent }}
           />
