@@ -13,7 +13,7 @@ const Save = ({ attributes }) => {
           <Flex direction="column">
             {tasks.length
               ? tasks.map((task) => (
-                  <Flex gap="2">
+                  <Flex gap="2" key={`${task.projectId}-${task.id}`}>
                     <Text> - {task.content}</Text>
                   </Flex>
                 ))

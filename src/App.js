@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BlockEditorProvider } from "@wordpress/block-editor";
-import { Button } from "@wordpress/components";
+import { Card, Flex, Button, Text } from "@radix-ui/themes";
 
 import BlockContentView from "./components/BlockContentView";
 import Editor from "./components/Editor";
@@ -38,20 +38,32 @@ function App({ persistentBlocks }) {
     <div className="App">
       <header className="App-header">
         {editMode && (
-          <>
-            <Button variant="primary" onClick={() => handleOnEditorSave()}>
+          <Flex gap="2">
+            <Button
+              size="3"
+              variant="solid"
+              onClick={() => handleOnEditorSave()}
+            >
               Save
             </Button>
-            <Button variant="secondary" onClick={() => onEditorQuit()}>
+            <Button size="3" variant="soft" onClick={() => onEditorQuit()}>
               Stop editing
             </Button>{" "}
-            <Button variant="tertiary" onClick={() => handleClearEditor()}>
+            <Button
+              size="3"
+              variant="outline"
+              onClick={() => handleClearEditor()}
+            >
               Clear
             </Button>
-          </>
+          </Flex>
         )}
         {!editMode && (
-          <Button variant="secondary" onClick={() => setEditMode(!editMode)}>
+          <Button
+            size="3"
+            variant="soft"
+            onClick={() => setEditMode(!editMode)}
+          >
             Edit Mode
           </Button>
         )}
