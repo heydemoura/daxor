@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 
 const Clock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -17,8 +18,14 @@ const Clock = () => {
 
   return (
     <div>
-      <h1>Current Time:</h1>
-      <p>{formattedTime}</p>
+      <Card>
+        <Flex direction="column" gap="2" align="center" justify="center">
+          <Heading as="h2">Current Time:</Heading>
+          <Text size="4" as="p">
+            {formattedTime}
+          </Text>
+        </Flex>
+      </Card>
     </div>
   );
 };

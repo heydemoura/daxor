@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useBlockProps } from "@wordpress/block-editor";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 
 const Clock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -22,8 +23,14 @@ const Clock = () => {
         className: "daxor__block__clock",
       })}
     >
-      <h1>Current Time:</h1>
-      <p>{formattedTime}</p>
+      <Card>
+        <Flex direction="column" gap="2" align="center" justify="center">
+          <Heading as="h2">Current Time:</Heading>
+          <Text size="4" as="p">
+            {formattedTime}
+          </Text>
+        </Flex>
+      </Card>
     </div>
   );
 };

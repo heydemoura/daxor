@@ -1,7 +1,6 @@
 import React from "react";
-import { TextControl } from "@wordpress/components";
+import { Card, Flex, Heading, TextField, Button } from "@radix-ui/themes";
 import { useBlockProps } from "@wordpress/block-editor";
-import "@wordpress/components/build-style/style.css";
 import "./style.scss";
 
 const Edit = (props) => {
@@ -12,30 +11,35 @@ const Edit = (props) => {
   const [url, setUrl] = React.useState(props.attributes.value);
   const [label, setLabel] = React.useState(props.attributes.label);
 
-  const handleURLChange = (value) => {
-    props.setAttributes({ ...props.attributes, value });
-    setUrl(value);
+  const handleURLChange = (event) => {
+    props.setAttributes({ ...props.attributes, value: event.target.value });
+    setUrl(event.target.value);
   };
 
-  const handleLabelChange = (value) => {
-    props.setAttributes({ ...props.attributes, label: value });
-    setLabel(value);
+  const handleLabelChange = (event) => {
+    props.setAttributes({ ...props.attributes, label: event.target.value });
+    setLabel(event.target.value);
   };
 
   return (
     <div {...blockProps}>
-      <TextControl
-        label="Shortcut Label"
-        onChange={handleLabelChange}
-        value={label}
-        className="daxor__block__edit-shortcut-badge__label-input"
-      />
-      <TextControl
-        label="URL"
-        onChange={handleURLChange}
-        value={url}
-        className="daxor__block__edit-shortcut-badge__url-input"
-      />
+      <Card>
+        <Flex direction="column" gap="3">
+          <Heading as="h2">Shortcut Badge</Heading>
+          <TextField.Input
+            placeholder="Shortcut Label"
+            onChange={handleLabelChange}
+            value={label}
+            className="daxor__block__edit-shortcut-badge__label-input"
+          />
+          <TextField.Input
+            placeholder="URL"
+            onChange={handleURLChange}
+            value={url}
+            className="daxor__block__edit-shortcut-badge__url-input"
+          />
+        </Flex>
+      </Card>
     </div>
   );
 };

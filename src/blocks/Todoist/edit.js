@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@wordpress/components";
+import { Flex, Heading, Button } from "@radix-ui/themes";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 import TasksListItem from "./components/TasksListItem";
 import TodoistRequestAccess from "./components/TodoistRequestAccess";
@@ -14,9 +14,10 @@ const Edit = ({ attributes, setAttributes }) => {
   const handleGetTasksResponse = React.useCallback(
     (t) => {
       setTasks(t);
-      setAttributes({ tasks: t });
+      setAttributes({ ...attributes, tasks: t });
+      console.log(t);
     },
-    [setAttributes, setTasks],
+    [setAttributes, setTasks, attributes],
   );
 
   const handleRefreshTasks = React.useCallback(() => {
@@ -33,7 +34,7 @@ const Edit = ({ attributes, setAttributes }) => {
         .then(setTasks)
         .catch((error) => console.log(error));
 
-    getTasks();
+    if (apiToken) getTasks();
   }, []);
 
   const handleRequestAccessSave = async (token) => {
@@ -49,20 +50,21 @@ const Edit = ({ attributes, setAttributes }) => {
 
   return (
     <div>
-      <h2>Todoist!</h2>
+      <Heading as="h2">Todoist!</Heading>
       <ul>
-        {tasks.length
-          ? tasks.map((task) => (
-              <TasksListItem key={`${task.projectId}-${task.id}`} task={task} />
-            ))
-          : null}
+        <Flex gap="2" direction="column">
+          {tasks.length
+            ? tasks.map((task) => (
+                <TasksListItem
+                  key={`${task.projectId}-${task.id}`}
+                  task={task}
+                />
+              ))
+            : null}
+        </Flex>
       </ul>
       {!apiToken && <TodoistRequestAccess onSave={handleRequestAccessSave} />}
-      {apiToken && (
-        <Button variant="secondary" onClick={handleRefreshTasks}>
-          Refresh tasks
-        </Button>
-      )}
+      {apiToken && <Button onClick={handleRefreshTasks}>Refresh tasks</Button>}
     </div>
   );
 };

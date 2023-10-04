@@ -1,10 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@wordpress/components/build-style/style.css";
-import "@wordpress/block-editor/build-style/style.css";
+import { Theme } from "@radix-ui/themes";
 import "@wordpress/block-library/build-style/style.css";
-import "@wordpress/block-library/build-style/editor.css";
-import "@wordpress/block-library/build-style/theme.css";
+import "@radix-ui/themes/styles.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -16,7 +14,9 @@ const persistentBlocks = JSON.parse(localStorage.getItem("blocks"));
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App persistentBlocks={persistentBlocks} />
+    <Theme>
+      <App persistentBlocks={persistentBlocks} />
+    </Theme>
   </React.StrictMode>,
 );
 

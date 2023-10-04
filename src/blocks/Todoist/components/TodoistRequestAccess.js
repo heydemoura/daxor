@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, TextControl } from "@wordpress/components";
+import {
+  Link,
+  Heading,
+  Flex,
+  Box,
+  Badge,
+  TextField,
+  Button,
+} from "@radix-ui/themes";
 
 const TodoistRequestAccess = ({ onSave }) => {
   const textControlRef = React.useRef(null);
@@ -10,21 +18,28 @@ const TodoistRequestAccess = ({ onSave }) => {
 
   return (
     <div className="daxor-todoist-block__request-access">
-      <h3>Request Access</h3>
-      <Button
-        href="https://todoist.com/app/settings/integrations/developer"
-        target="_blank"
-        rel="noreferrer"
-        variant="secondary"
-      >
-        Click here to get your Todoist API Token and paste below
-      </Button>
-      <br />
-      <br />
-      <TextControl ref={textControlRef} />
-      <Button onClick={handleOnSave} variant="primary">
-        Save Todoist Access Token
-      </Button>
+      <Heading as="h3">Request Access</Heading>
+
+      <Flex direction="column" gap="4">
+        <Button target="_blank" rel="noreferrer" variant="soft" size="3">
+          <Link
+            href="https://todoist.com/app/settings/integrations/developer"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Click here to get your Todoist API Token and paste below
+          </Link>
+        </Button>
+        <TextField.Root>
+          <TextField.Input
+            ref={textControlRef}
+            placeholder="Paste your api token here."
+          />
+        </TextField.Root>
+        <Button onClick={handleOnSave} variant="solid">
+          Save Todoist Access Token
+        </Button>
+      </Flex>
     </div>
   );
 };
