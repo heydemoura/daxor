@@ -8,11 +8,11 @@ import "@wordpress/block-library/build-style/theme.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import registerShortcutBadge from "./blocks/ShortcutBadge";
-import registerClock from "./blocks/Clock";
+import registerDashboardBlocks from "./blocks";
+
+registerDashboardBlocks();
 
 const persistentBlocks = JSON.parse(localStorage.getItem("blocks"));
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -24,6 +24,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-registerShortcutBadge();
-registerClock();
