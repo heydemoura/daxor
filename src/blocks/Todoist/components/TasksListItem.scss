@@ -1,0 +1,25 @@
+.daxor__todoist-block__tasks-list-item {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-start;
+
+    &__checkbox > input[type="checkbox"] {
+        appearance: none;
+        box-shadow: 0 0 0 1px #b3d4fc;
+        border: none;
+        height: 1.5rem;
+        width: 1.5rem;
+
+        &:checked {
+            // dark blue background
+            background-color: #3858e9;
+        }
+    }
+
+    &__text {
+        margin-left: 1rem;
+        flex: 1;
+    }
+}
