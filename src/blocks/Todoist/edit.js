@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "@wordpress/components";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 import TasksListItem from "./components/TasksListItem";
-
-const api = new TodoistApi("c3b8038d02aa3ed7608e498931f8beb125a7eaf0");
+import TodoistRequestAccess from "./components/TodoistRequestAccess";
 
 const Edit = ({ attributes, setAttributes }) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(attributes.tasks || []);
+  const [apiToken, setApiToken] = useState(attributes.apiToken);
+  const [api, setApi] = useState(
+    attributes.apiToken ? new TodoistApi(attributes.apiToken) : null,
+  );
 
-  const handleGetTasksRespose = React.useCallback(
+  const handleGetTasksResponse = React.useCallback(
     (t) => {
-      console.log(t);
       setTasks(t);
       setAttributes({ tasks: t });
     },
     [setAttributes, setTasks],
   );
+
+  const handleRefreshTasks = React.useCallback(() => {
+    api
+      .getTasks()
+      .then(handleGetTasksResponse)
+      .catch((error) => console.log(error));
+  }, [api, handleGetTasksResponse]);
 
   useEffect(() => {
     const getTasks = async () =>
@@ -26,14 +36,33 @@ const Edit = ({ attributes, setAttributes }) => {
     getTasks();
   }, []);
 
+  const handleRequestAccessSave = async (token) => {
+    const _api = new TodoistApi(token);
+    setApiToken(token);
+    setApi(_api);
+    setAttributes({ ...attributes, apiToken: token });
+    await _api
+      .getTasks()
+      .then(handleGetTasksResponse)
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       <h2>Todoist!</h2>
       <ul>
-        {tasks.map((task) => (
-          <TasksListItem key={task.id} task={task} />
-        ))}
+        {tasks.length
+          ? tasks.map((task) => (
+              <TasksListItem key={`${task.projectId}-${task.id}`} task={task} />
+            ))
+          : null}
       </ul>
+      {!apiToken && <TodoistRequestAccess onSave={handleRequestAccessSave} />}
+      {apiToken && (
+        <Button variant="secondary" onClick={handleRefreshTasks}>
+          Refresh tasks
+        </Button>
+      )}
     </div>
   );
 };

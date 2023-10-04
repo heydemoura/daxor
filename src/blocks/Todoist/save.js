@@ -8,9 +8,11 @@ const Save = ({ attributes }) => {
     <div {...useBlockProps.save()}>
       <h2>Todoist!</h2>
       <ul>
-        {tasks.map((task) => (
-          <TasksListItem task={task} />
-        ))}
+        {tasks.length
+          ? tasks.map((task) => (
+              <TasksListItem task={task} key={`${task.projectId}-${task.id}`} />
+            ))
+          : null}
       </ul>
     </div>
   );
