@@ -4,6 +4,7 @@ import { Card, Flex, Button, Text } from "@radix-ui/themes";
 
 import BlockContentView from "./components/BlockContentView";
 import Editor from "./components/Editor";
+import Header from "./components/Header";
 import "./App.css";
 import "@wordpress/components/build-style/style.css";
 import "@wordpress/block-editor/build-style/style.css";
@@ -36,38 +37,12 @@ function App({ persistentBlocks }) {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {editMode && (
-          <Flex gap="2">
-            <Button
-              size="3"
-              variant="solid"
-              onClick={() => handleOnEditorSave()}
-            >
-              Save
-            </Button>
-            <Button size="3" variant="soft" onClick={() => onEditorQuit()}>
-              Stop editing
-            </Button>{" "}
-            <Button
-              size="3"
-              variant="outline"
-              onClick={() => handleClearEditor()}
-            >
-              Clear
-            </Button>
-          </Flex>
-        )}
-        {!editMode && (
-          <Button
-            size="3"
-            variant="soft"
-            onClick={() => setEditMode(!editMode)}
-          >
-            Edit Mode
-          </Button>
-        )}
-      </header>
+      <Header
+        editMode={editMode}
+        onEditModeClick={() => setEditMode(true)}
+        onEditorClearClick={handleClearEditor}
+        onEditorSaveClick={onEditorQuit}
+      />
       <BlockEditorProvider
         value={blocks}
         onChange={onUpdateBlocks}
