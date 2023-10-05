@@ -1,7 +1,15 @@
 import React from "react";
 import classnames from "classnames";
 import { BlockInspector } from "@wordpress/block-editor";
-import { Button } from "@wordpress/components";
+import {
+  Box,
+  Card,
+  Container,
+  Flex,
+  Inset,
+  Button,
+  Text,
+} from "@radix-ui/themes";
 import { MdMenu } from "react-icons/md";
 import "./BlockInspectorWrapper.scss";
 
@@ -14,13 +22,25 @@ const BlockInspectorWrapper = () => {
   });
   return (
     <div className={classList}>
-      <Button
-        variant="secondary"
-        onClick={() => setInspectorHidden(!inspectorHidden)}
-      >
-        <MdMenu /> &nbsp; Toggle Inspector
-      </Button>
-      <BlockInspector />
+      <Card panelBackground>
+        <Flex gap="3" direction="column">
+          {/* <Button
+            variant="soft"
+            onClick={() => setInspectorHidden(!inspectorHidden)}
+          >
+            <MdMenu /> &nbsp; Toggle Inspector
+          </Button>
+*/}
+          <Box>
+            <Text size="3" as="h2">
+              Inspector
+            </Text>
+          </Box>
+          <Box>
+            <BlockInspector />
+          </Box>
+        </Flex>
+      </Card>
     </div>
   );
 };
