@@ -15,7 +15,7 @@ const Header = ({
           <Link href="/">Dashboard</Link>
         </Text>
       </Flex>
-      <Flex align="center">
+      <Flex align="flex-end">
         {editMode && (
           <Flex gap="2">
             <Button
@@ -40,7 +40,6 @@ const Header = ({
           </Button>
         )}
       </Flex>
-      <Flex align="flex-end"></Flex>
     </Flex>
   );
 };
