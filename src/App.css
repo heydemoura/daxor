@@ -1,6 +1,7 @@
+
 .App {
-  background: "var(--gray-a2)";
-  borderRadius: "var(--radius-3)";
+  background: var(--violet-2);
+  borderRadius: var(--radius-3);
 }
 
 .App-header {
