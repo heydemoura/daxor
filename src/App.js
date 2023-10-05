@@ -5,6 +5,7 @@ import { Card, Flex, Button, Text } from "@radix-ui/themes";
 import BlockContentView from "./components/BlockContentView";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
+import EditorToolBar from "./components/EditorToolBar";
 import "./App.css";
 import "@wordpress/components/build-style/style.css";
 import "@wordpress/block-editor/build-style/style.css";
@@ -12,6 +13,7 @@ import "@wordpress/block-editor/build-style/style.css";
 function App({ persistentBlocks }) {
   const [editMode, setEditMode] = React.useState(false);
   const [blocks, updateBlocks] = useState(persistentBlocks || []);
+  const [showInspector, setShowInspector] = useState(false);
 
   const handleOnEditorSave = React.useCallback(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
@@ -35,6 +37,10 @@ function App({ persistentBlocks }) {
     updateBlocks([]);
   }, [updateBlocks]);
 
+  const handleToggleInspector = React.useCallback(() => {
+    setShowInspector(!showInspector);
+  }, [showInspector, setShowInspector]);
+
   return (
     <div className="App">
       <Header
@@ -49,9 +55,13 @@ function App({ persistentBlocks }) {
         onInput={onUpdateBlocks}
       >
         <main className="App--main">
+          {editMode && (
+            <EditorToolBar onInspectorToggleClick={handleToggleInspector} />
+          )}
+
           {!editMode && <BlockContentView blocks={blocks} />}
 
-          {editMode && <Editor />}
+          {editMode && <Editor showInspector={showInspector} />}
         </main>
       </BlockEditorProvider>
     </div>

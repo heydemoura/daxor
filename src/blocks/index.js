@@ -6,7 +6,6 @@ import { init as registerListItem } from "@wordpress/block-library/build-module/
 
 import registerClock from "./Clock";
 import registerShortcutBadge from "./ShortcutBadge";
-import registerRichTextEditor from "./RichTextBlock";
 import registerTodoist from "./Todoist";
 
 export default function registerDashboardBlocks() {
@@ -18,5 +17,4 @@ export default function registerDashboardBlocks() {
   registerParagraph();
   registerList();
   registerListItem();
-  registerRichTextEditor();
 }
