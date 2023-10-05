@@ -19,8 +19,21 @@
     }
 
     .wp-block-columns {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
         .wp-block-column {
-            margin: 0 1rem;
+            margin: 0 0.5rem;
+        }
+
+        .wp-block-column:first-child {
+            margin-left: 0rem;
+            margin-right: 0.5rem;
+        }
+        .wp-block-column:last-child {
+            margin-left: 0.5rem;
+            margin-right: 0rem;
         }
     }
 }
