@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Heading, Button } from "@radix-ui/themes";
+import { Card, Flex, Heading, Button } from "@radix-ui/themes";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 import TasksListItem from "./components/TasksListItem";
 import TodoistRequestAccess from "./components/TodoistRequestAccess";
@@ -49,7 +49,7 @@ const Edit = ({ attributes, setAttributes }) => {
   };
 
   return (
-    <div>
+    <Card>
       <Heading as="h2">Todoist!</Heading>
       <ul>
         <Flex gap="2" direction="column">
@@ -65,7 +65,7 @@ const Edit = ({ attributes, setAttributes }) => {
       </ul>
       {!apiToken && <TodoistRequestAccess onSave={handleRequestAccessSave} />}
       {apiToken && <Button onClick={handleRefreshTasks}>Refresh tasks</Button>}
-    </div>
+    </Card>
   );
 };
 
