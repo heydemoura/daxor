@@ -1,0 +1,15 @@
+.block-editor-inserter,
+.daxor-block-inserter {
+    display: flex;
+    width: 100%;
+}
+
+.daxor-block-appender {
+    margin-top: 1rem;
+
+}
+
+.daxor-block-inserter__block-item {
+    height: 80px;
+    text-align: center;
+}

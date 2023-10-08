@@ -1,7 +1,105 @@
+import React from "react";
 import classnames from "classnames";
-import { Button, Flex } from "@radix-ui/themes";
-import { Inserter } from "@wordpress/block-editor";
+import {
+  Box,
+  Button,
+  Dialog,
+  Flex,
+  Grid,
+  IconButton,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
+import { Icon } from "@wordpress/components";
+import {
+  BlockIcon,
+  Inserter,
+  RichText,
+  store as blockEditorStore,
+} from "@wordpress/block-editor";
+import { store as blocksStore, createBlock } from "@wordpress/blocks";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { addFilter } from "@wordpress/hooks";
 import { MdAdd } from "react-icons/md";
+import DaxorInserterMenu from "./DaxorInserterMenu";
+import "./DaxorBlockInserter.scss";
+
+const DaxorInserterDialog = ({ onClick }) => {
+  const { blockTypes } = useSelect(
+    (select) => ({
+      blockTypes: select(blocksStore).getBlockTypes(),
+    }),
+    [],
+  );
+
+  const { inserterItems } = useSelect((select) => {
+    const store = select(blockEditorStore);
+
+    return {
+      inserterItems: store.getInserterItems(),
+    };
+  });
+
+  const dispatch = useDispatch(blockEditorStore);
+  console.log(dispatch);
+
+  const handleBlockInsert = React.useCallback(
+    (block) => {
+      dispatch.insertBlock(block);
+    },
+    [dispatch],
+  );
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Button onClick={onClick}>
+          <MdAdd />
+        </Button>
+      </Dialog.Trigger>
+
+      <Dialog.Content style={{ maxWidth: 450 }}>
+        <Dialog.Title>Pick a bock to add</Dialog.Title>
+        <Dialog.Description size="2" mb="4">
+          Make changes to your profile.
+        </Dialog.Description>
+
+        <Flex direction="column" gap="3">
+          <Grid columns="3" gap="5" width="auto">
+            {inserterItems.map((blockType) => {
+              return (
+                <Dialog.Close>
+                  <Button variant="ghost">
+                    <Flex
+                      align="center"
+                      justify="center"
+                      direction="column"
+                      className="daxor-block-inserter__block-item"
+                      onClick={() =>
+                        handleBlockInsert(createBlock(blockType.name))
+                      }
+                    >
+                      <BlockIcon icon={blockType.icon} />
+                      <Text>{blockType.title}</Text>
+                    </Flex>
+                  </Button>
+                </Dialog.Close>
+              );
+            })}
+          </Grid>
+        </Flex>
+
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button variant="soft" color="gray">
+              Cancel
+            </Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+};
 
 const DaxorAppenderButton = ({
   onToggle,
@@ -9,29 +107,33 @@ const DaxorAppenderButton = ({
   Disabled,
   blockTitle,
   hasSingleBlockType,
+  className,
+  ...restProps
 }) => {
   return (
-    <Button variant="solid" size="2" onClick={onToggle}>
-      <Flex align="center" justify="center" size="3">
-        <MdAdd />
-      </Flex>
-    </Button>
+    <Flex align="start" justify="start" className={className}>
+      <DaxorInserterDialog />
+    </Flex>
   );
 };
 
 const DaxorAppender = ({ rootClientId, className, onFocus, tabIndex }) => {
   return (
-    <Flex align="end" justify="end">
+    <Flex align="center" justify="start">
       <Inserter
-        position="top right"
+        position="bottom center"
         rootClientId={rootClientId}
+        showMostUsedBlocks
         isAppender
+        __experimentalIsQuick
+        hasSearch
+        hasExpand
         renderToggle={(toggleProps) => (
           <DaxorAppenderButton
             {...toggleProps}
             onFocus={onFocus}
             tabIndex={tabIndex}
-            className={classnames(className, "daxor-block-appender-button")}
+            className={classnames(className, "daxor-block-appender")}
           />
         )}
       />
