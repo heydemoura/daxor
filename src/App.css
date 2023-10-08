@@ -2,6 +2,9 @@
 .App {
   background: var(--violet-2);
   borderRadius: var(--radius-3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .App-header {

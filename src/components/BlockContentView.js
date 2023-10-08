@@ -1,12 +1,12 @@
 import React from "react";
 import { getBlockContent } from "@wordpress/blocks";
-import { Flex, Card } from "@radix-ui/themes";
+import { Box, Flex, Card, ScrollArea } from "@radix-ui/themes";
 import "./BlockContentView.scss";
 
 const BlockContentView = ({ blocks }) => {
   return (
     <div className="daxor__block-content-view">
-      <Flex direction="column" gap="2">
+      <Flex direction="column" gap="2" p="4">
         {blocks.map((block, index) => {
           const blockContent = getBlockContent(block);
 

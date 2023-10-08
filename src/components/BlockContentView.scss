@@ -1,10 +1,8 @@
 .daxor__block-content-view {
+    display: flex;
+    min-width: 100vw;
     flex: 1;
     padding: 2rem;
-
-    &__block {
-        margin: 1.2rem;
-    }
 
     .wp-block-columns {
         .wp-block-column {
