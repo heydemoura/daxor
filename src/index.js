@@ -7,7 +7,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import registerDashboardBlocks from "./blocks";
+import registerEditorHooks from "./hooks";
 
+registerEditorHooks();
 registerDashboardBlocks();
 
 const persistentBlocks = JSON.parse(localStorage.getItem("blocks"));
