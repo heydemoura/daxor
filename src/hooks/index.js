@@ -6,7 +6,6 @@ import DaxorBlockListBlock from "../components/DaxorBlockListBlock";
 // import DaxorInspectorControls from "../components/DaxorInspectorControls";
 
 const withDefaultClassName = (className, blockName) => {
-  console.log(className);
   const sanitizedClassName = blockName.replace("/", "-");
   return `${className} daxor-block__${sanitizedClassName} daxor-block`;
 };
@@ -24,6 +23,7 @@ export default function registerEditorHooks() {
   //   DaxorInspectorControls,
   // );
   //
+
   addFilter(
     "blocks.getBlockDefaultClassName",
     "daxor/block-default-class-name",
