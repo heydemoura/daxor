@@ -3,9 +3,9 @@ import { Card, Flex, Heading, Button } from "@radix-ui/themes";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 import TasksListItem from "./components/TasksListItem";
 import TodoistRequestAccess from "./components/TodoistRequestAccess";
-import { useBlockProps } from "@wordpress/block-editor";
+import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 
-const Edit = ({ attributes, setAttributes }) => {
+const Edit = ({ className, attributes, setAttributes }) => {
   const [tasks, setTasks] = useState(attributes.tasks || []);
   const [apiToken, setApiToken] = useState(attributes.apiToken);
   const [api, setApi] = useState(
@@ -50,7 +50,7 @@ const Edit = ({ attributes, setAttributes }) => {
   };
 
   return (
-    <div {...useBlockProps()}>
+    <div {...useBlockProps({ className })}>
       <Heading as="h2">Todoist!</Heading>
       <ul>
         <Flex gap="2" direction="column">

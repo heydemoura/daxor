@@ -5,7 +5,7 @@ import "./style.scss";
 
 const Edit = (props) => {
   const blockProps = useBlockProps({
-    className: "daxor__block__edit-shortcut-badge",
+    className: `${props.className} daxor__block__edit-shortcut-badge`,
   });
 
   const [url, setUrl] = React.useState(props.attributes.value);

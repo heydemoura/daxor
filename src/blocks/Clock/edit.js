@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useBlockProps } from "@wordpress/block-editor";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 
-const Clock = () => {
+const Clock = (props) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -18,11 +18,7 @@ const Clock = () => {
   const formattedTime = currentTime.toLocaleTimeString();
 
   return (
-    <div
-      {...useBlockProps({
-        className: "daxor__block__clock",
-      })}
-    >
+    <div {...useBlockProps({ className: props.className })}>
       <Card>
         <Flex direction="column" gap="2" align="center" justify="center">
           <Heading as="h2">Current Time:</Heading>
