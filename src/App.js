@@ -13,7 +13,7 @@ import "@wordpress/block-editor/build-style/style.css";
 function App({ persistentBlocks }) {
   const [editMode, setEditMode] = React.useState(false);
   const [blocks, updateBlocks] = useState(persistentBlocks || []);
-  const [showInspector, setShowInspector] = useState(false);
+  const [showInspector, setShowInspector] = useState(true);
 
   const handleOnEditorSave = React.useCallback(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
