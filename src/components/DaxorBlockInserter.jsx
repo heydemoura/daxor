@@ -1,4 +1,5 @@
 import React from "react";
+import Fuse from "fuse.js";
 import classnames from "classnames";
 import {
   Box,
@@ -24,7 +25,28 @@ import { MdAdd } from "react-icons/md";
 import DaxorInserterMenu from "./DaxorInserterMenu";
 import "./DaxorBlockInserter.scss";
 
+const blockListRenderCallback = (blockType, handleBlockInsert) => {
+  return (
+    <Dialog.Close>
+      <Button variant="ghost">
+        <Flex
+          align="center"
+          justify="center"
+          direction="column"
+          className="daxor-block-inserter__block-item"
+          onClick={() => handleBlockInsert(createBlock(blockType.name))}
+        >
+          <BlockIcon icon={blockType.icon} />
+          <Text>{blockType.title}</Text>
+        </Flex>
+      </Button>
+    </Dialog.Close>
+  );
+};
+
 const DaxorInserterDialog = ({ onClick }) => {
+  const [filterValue, setFilterValue] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
   const { blockTypes } = useSelect(
     (select) => ({
       blockTypes: select(blocksStore).getBlockTypes(),
@@ -46,9 +68,27 @@ const DaxorInserterDialog = ({ onClick }) => {
   const handleBlockInsert = React.useCallback(
     (block) => {
       dispatch.insertBlock(block);
+      setFilterValue("");
     },
     [dispatch],
   );
+
+  const handleBlockFilter = React.useCallback(
+    (event) => {
+      setFilterValue(event.target.value);
+    },
+    [setFilterValue],
+  );
+
+  React.useEffect(() => {
+    const fuse = new Fuse(inserterItems, {
+      keys: ["title", "name", "keywords"],
+      threshold: 0.3,
+    });
+
+    const results = fuse.search(filterValue);
+    setSearchResults(results.map((result) => result.item));
+  }, [inserterItems, setSearchResults, setFilterValue, filterValue]);
 
   return (
     <Dialog.Root>
@@ -61,31 +101,21 @@ const DaxorInserterDialog = ({ onClick }) => {
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Pick a bock to add</Dialog.Title>
         <Dialog.Description size="2" mb="4">
-          Make changes to your profile.
+          <TextField.Root>
+            <TextField.Input
+              placeholder="Search the blocks…"
+              onChange={handleBlockFilter}
+              value={filterValue}
+            />
+          </TextField.Root>
         </Dialog.Description>
 
         <Flex direction="column" gap="3">
           <Grid columns="3" gap="5" width="auto">
-            {inserterItems.map((blockType) => {
-              return (
-                <Dialog.Close>
-                  <Button variant="ghost">
-                    <Flex
-                      align="center"
-                      justify="center"
-                      direction="column"
-                      className="daxor-block-inserter__block-item"
-                      onClick={() =>
-                        handleBlockInsert(createBlock(blockType.name))
-                      }
-                    >
-                      <BlockIcon icon={blockType.icon} />
-                      <Text>{blockType.title}</Text>
-                    </Flex>
-                  </Button>
-                </Dialog.Close>
-              );
-            })}
+            {(searchResults.length ? searchResults : inserterItems).map(
+              (blockType) =>
+                blockListRenderCallback(blockType, handleBlockInsert),
+            )}
           </Grid>
         </Flex>
 
