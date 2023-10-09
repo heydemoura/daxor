@@ -2,7 +2,12 @@ import React from "react";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { Card, Inset } from "@radix-ui/themes";
 
-const excludeBlocks = ["core/column", "core/columns", "core/paragraph"];
+const excludeBlocks = [
+  "core/column",
+  "core/columns",
+  "core/paragraph",
+  "daxor/radix-columns",
+];
 
 const DaxorBlockListBlock = createHigherOrderComponent(
   (BlockListBlock) => (props) => {
