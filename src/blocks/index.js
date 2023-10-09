@@ -7,6 +7,7 @@ import { init as registerListItem } from "@wordpress/block-library/build-module/
 import registerClock from "./Clock";
 import registerShortcutBadge from "./ShortcutBadge";
 import registerTodoist from "./Todoist";
+import registerRadixColumns from "./radix-columns";
 
 export default function registerDashboardBlocks() {
   registerClock();
@@ -17,4 +18,5 @@ export default function registerDashboardBlocks() {
   registerParagraph();
   registerList();
   registerListItem();
+  registerRadixColumns();
 }
