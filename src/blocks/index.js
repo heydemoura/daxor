@@ -8,6 +8,7 @@ import registerClock from "./Clock";
 import registerShortcutBadge from "./ShortcutBadge";
 import registerTodoist from "./Todoist";
 import registerRadixColumns from "./radix-columns";
+import registerBlockAutocomplete from "./block-autocomplete";
 
 export default function registerDashboardBlocks() {
   registerClock();
@@ -19,4 +20,5 @@ export default function registerDashboardBlocks() {
   registerList();
   registerListItem();
   registerRadixColumns();
+  registerBlockAutocomplete();
 }
