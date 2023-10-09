@@ -49,9 +49,9 @@ const EditContainer = ({ attributes, setAttributes, clientId }) => {
     renderAppender: false,
   });
 
-  console.log(columns);
-
-  return <Flex direction="row" gap="4" width="auto" {...innerBlocksProps} />;
+  return (
+    <Grid columns={`${columns}`} gap="4" width="auto" {...innerBlocksProps} />
+  );
 };
 
 const Placeholder = ({ name, clientId, setAttributes }) => {
@@ -72,10 +72,9 @@ const Placeholder = ({ name, clientId, setAttributes }) => {
   const blockProps = useBlockProps();
 
   const handleSelectColumnsNumber = (variation) => {
-    console.log(clientId);
-    console.log(
-      createBlocksFromInnerBlocksTemplate(variations[variation].innerBlocks),
-    );
+    setAttributes({
+      columns: variation + 1,
+    });
     replaceInnerBlocks(
       clientId,
       createBlocksFromInnerBlocksTemplate(variations[variation].innerBlocks),
@@ -83,7 +82,7 @@ const Placeholder = ({ name, clientId, setAttributes }) => {
   };
 
   return (
-    <Flex direction="column" gap="2">
+    <Flex direction="column" gap="2" justify="between" align="stretch">
       <Button onClick={() => handleSelectColumnsNumber(0)}> 1 Column </Button>
       <Button onClick={() => handleSelectColumnsNumber(1)}> 2 Columns </Button>
       <Button onClick={() => handleSelectColumnsNumber(2)}> 3 Columns </Button>

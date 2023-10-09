@@ -6,7 +6,7 @@ const Save = (props) => {
   const blockProps = useBlockProps.save();
   const innerBlockProps = useInnerBlocksProps.save(blockProps);
 
-  return <Flex gap="3" {...innerBlockProps}></Flex>;
+  return <Grid columns={`${columns}`} gap="3" {...innerBlockProps} />;
 };
 
 export default Save;
