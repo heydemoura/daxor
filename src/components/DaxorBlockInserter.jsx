@@ -168,7 +168,7 @@ export const DaxorAppenderButton = ({
     const lastBlock = lastBlockClientId && getBlock(lastBlockClientId);
 
     if (!lastBlock || "daxor/block-autocomplete" !== lastBlock.name) {
-      dispatch.insertBlockAfter({ ...block });
+      dispatch.insertBlock({ ...block });
     }
   }, [dispatch, rootClientId, getBlockOrder, getBlock]);
 
