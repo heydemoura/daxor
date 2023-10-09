@@ -139,9 +139,44 @@ export const DaxorAppenderButton = ({
   rootClientId,
   ...restProps
 }) => {
+  const { getBlock, getBlockOrder, getBlockType } = useSelect(
+    (select) => ({
+      getBlock: select(blockEditorStore).getBlock,
+      getBlockType: select(blocksStore).getBlockType,
+      getBlockOrder: select(blockEditorStore).getBlockOrder,
+    }),
+    [],
+  );
+  const dispatch = useDispatch(blockEditorStore);
+  const handleAddCompleter = React.useCallback(() => {
+    const block = createBlock("daxor/block-autocomplete");
+    dispatch.insertBlock({ ...block });
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    const block = createBlock("daxor/block-autocomplete");
+    const blockOrder = getBlockOrder(rootClientId);
+
+    // No Blocks yet
+    if (!blockOrder.length) {
+      dispatch.insertBlock({ ...block });
+      return;
+    }
+
+    // Gets last block to check if it's not the appender block
+    const lastBlockClientId = blockOrder[blockOrder.length - 1];
+    const lastBlock = lastBlockClientId && getBlock(lastBlockClientId);
+
+    if (!lastBlock || "daxor/block-autocomplete" !== lastBlock.name) {
+      dispatch.insertBlockAfter({ ...block });
+    }
+  }, [dispatch, rootClientId, getBlockOrder, getBlock]);
+
   return (
     <Flex align="start" justify="start" className={className}>
-      <DaxorInserterDialog rootClientId={rootClientId} />
+      <Flex>
+        <DaxorInserterDialog rootClientId={rootClientId} />
+      </Flex>
     </Flex>
   );
 };
