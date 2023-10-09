@@ -22,7 +22,6 @@ import { store as blocksStore, createBlock } from "@wordpress/blocks";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { addFilter } from "@wordpress/hooks";
 import { MdAdd } from "react-icons/md";
-import DaxorInserterMenu from "./DaxorInserterMenu";
 import "./DaxorBlockInserter.scss";
 
 const blockListRenderCallback = (blockType, handleBlockInsert) => {
@@ -44,7 +43,7 @@ const blockListRenderCallback = (blockType, handleBlockInsert) => {
   );
 };
 
-const DaxorInserterDialog = ({ onClick }) => {
+const DaxorInserterDialog = ({ onClick, rootClientId }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const { blockTypes } = useSelect(
@@ -63,14 +62,13 @@ const DaxorInserterDialog = ({ onClick }) => {
   });
 
   const dispatch = useDispatch(blockEditorStore);
-  console.log(dispatch);
 
   const handleBlockInsert = React.useCallback(
     (block) => {
-      dispatch.insertBlock(block);
+      dispatch.insertBlock({ ...block, rootClientId });
       setFilterValue("");
     },
-    [dispatch],
+    [dispatch, rootClientId],
   );
 
   const handleBlockFilter = React.useCallback(
@@ -131,18 +129,19 @@ const DaxorInserterDialog = ({ onClick }) => {
   );
 };
 
-const DaxorAppenderButton = ({
+export const DaxorAppenderButton = ({
   onToggle,
   isOpen,
   Disabled,
   blockTitle,
   hasSingleBlockType,
   className,
+  rootClientId,
   ...restProps
 }) => {
   return (
     <Flex align="start" justify="start" className={className}>
-      <DaxorInserterDialog />
+      <DaxorInserterDialog rootClientId={rootClientId} />
     </Flex>
   );
 };
@@ -164,6 +163,7 @@ const DaxorAppender = ({ rootClientId, className, onFocus, tabIndex }) => {
             onFocus={onFocus}
             tabIndex={tabIndex}
             className={classnames(className, "daxor-block-appender")}
+            rootClientId={rootClientId}
           />
         )}
       />
