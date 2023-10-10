@@ -36,7 +36,7 @@ const BlockAutcomplete = ({ attributes, setAttributes }) => {
       getOptionLabel: getOptionLabel,
       getOptionCompletion: getOptionCompletion,
     }),
-    [getInserterItems, getOptionLabel],
+    [getInserterItems, getOptionLabel, getOptionCompletion],
   );
 
   useEffect(() => {
