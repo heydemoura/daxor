@@ -42,7 +42,6 @@ const BlockAutcomplete = ({ attributes, setAttributes }) => {
   useEffect(() => {
     // Focus on the editable element on mount
     editableElRef.current.focus();
-    console.log(editableElRef.current);
   }, []);
 
   return (
